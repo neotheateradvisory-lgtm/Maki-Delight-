@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Realizar pedido')}"></head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main class="container section-space checkout-page">
+	<div class="page-heading">
+		<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> YA CASI ESTÁ</p>
+		<h1 class="section-title">Confirma tu <em>pedido.</em></h1>
+		<p class="section-copy">Déjanos los datos para llevarte algo delicioso.</p>
+	</div>
+	<div class="alert alert-success d-none mt-4" role="status" id="order-success">¡Pedido confirmado! Es una demostración: no se envió ni guardó una orden real.</div>
+	<div class="row g-5 mt-2">
+		<div class="col-lg-7">
+			<section class="form-panel">
+				<h2 class="form-section-title">Datos de entrega</h2>
+				<form id="orderForm" class="needs-validation" novalidate>
+					<div class="mb-3">
+						<label class="form-label" for="orderName">Nombre</label>
+						<input class="form-control" id="orderName" name="name" type="text" placeholder="Nombre de quien recibe" autocomplete="name" required minlength="2">
+						<div class="invalid-feedback">Ingresa el nombre de quien recibirá el pedido.</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="orderPhone">Teléfono</label>
+						<input class="form-control" id="orderPhone" name="phone" type="tel" placeholder="+51 987 654 321" autocomplete="tel" pattern="\+?[0-9 ]{7,15}" required>
+						<div class="invalid-feedback">Ingresa un teléfono válido.</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="orderAddress">Dirección</label>
+						<input class="form-control" id="orderAddress" name="address" type="text" placeholder="Calle, número, distrito" autocomplete="street-address" required minlength="5">
+						<div class="invalid-feedback">Indica una dirección de entrega.</div>
+					</div>
+					<div class="mb-4">
+						<label class="form-label" for="orderNotes">Observaciones <span class="optional-label">(opcional)</span></label>
+						<textarea class="form-control" id="orderNotes" name="notes" rows="3" placeholder="Referencias para encontrar tu dirección o indicaciones especiales"></textarea>
+					</div>
+					<button class="btn btn-salmon btn-lg w-100" type="submit">Confirmar pedido <span aria-hidden="true">↗</span></button>
+					<p class="form-demo-note mt-3 mb-0">Al confirmar, verás un mensaje de demostración. No se realiza ningún pago.</p>
+				</form>
+			</section>
+		</div>
+		<div class="col-lg-5">
+			<aside class="order-summary checkout-summary">
+				<p class="eyebrow eyebrow-dark">REVISIÓN FINAL</p><h2>Resumen de tu pedido</h2>
+				<div id="checkout-items" class="checkout-items"></div>
+				<div id="checkout-empty" class="empty-checkout d-none">Todavía no agregas productos. <a th:href="@{/menu}">Ir al menú</a></div>
+				<div class="summary-total"><span>Total</span><strong id="checkout-total">S/ 0.00</strong></div>
+			</aside>
+		</div>
+	</div>
+</main>
+<div class="modal fade" id="confirmOrderModal" tabindex="-1" aria-labelledby="confirmOrderTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content confirmation-modal">
+			<div class="modal-body text-center p-4 p-md-5">
+				<div class="modal-sushi-mark" aria-hidden="true">巻</div>
+				<p class="eyebrow eyebrow-dark justify-content-center"><span class="eyebrow-line"></span> UN ÚLTIMO PASO</p>
+				<h2 id="confirmOrderTitle">¿Deseas confirmar tu pedido?</h2>
+				<p>Revisa que tus datos de entrega estén correctos.</p>
+				<div class="d-flex flex-column flex-sm-row gap-2 mt-4">
+					<button class="btn btn-outline-deep flex-fill" type="button" data-bs-dismiss="modal">Cancelar</button>
+					<button class="btn btn-salmon flex-fill" id="confirmOrderButton" type="button">Confirmar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

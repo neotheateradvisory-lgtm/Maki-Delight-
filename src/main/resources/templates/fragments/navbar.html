@@ -1,0 +1,26 @@
+<nav th:fragment="navbar" xmlns:th="http://www.thymeleaf.org" class="navbar navbar-expand-lg navbar-dark site-navbar sticky-top">
+	<div class="container">
+		<a class="navbar-brand brand-mark" th:href="@{/}" aria-label="Maki Delight, inicio">
+			<span class="brand-icon" aria-hidden="true">巻</span>
+			<span>MAKI <b>DELIGHT</b></span>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
+				aria-controls="mainNavigation" aria-expanded="false" aria-label="Abrir navegación">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="mainNavigation">
+			<ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+				<li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/menu}">Menú</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/mis-pedidos}">Mis pedidos</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/login}">Ingresar</a></li>
+				<li class="nav-item">
+					<a class="nav-link cart-nav-link" th:href="@{/carrito}">
+						Carrito <span class="cart-count" data-cart-count aria-label="Productos en el carrito">0</span>
+					</a>
+				</li>
+			</ul>
+			<a class="btn btn-salmon btn-sm ms-lg-3 nav-order-button" th:href="@{/menu}">Pedir ahora <span aria-hidden="true">↗</span></a>
+		</div>
+	</div>
+</nav>

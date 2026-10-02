@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Ingresar')}"></head>
+<body class="auth-page">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main class="container auth-container">
+	<div class="auth-card">
+		<div class="auth-side auth-side-login">
+			<p class="eyebrow">QUÉ BUENO VERTE</p>
+			<h1>Tu próximo<br>antojo está<br><em>cerca.</em></h1>
+			<p>Ingresa a tu cuenta para seguir disfrutando tus favoritos.</p>
+			<span class="auth-side-mark" aria-hidden="true">巻</span>
+		</div>
+		<div class="auth-form-panel">
+			<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> BIENVENIDO DE VUELTA</p>
+			<h2>Iniciar sesión</h2>
+			<p class="auth-intro">Ingresa tus datos para continuar.</p>
+			<div class="alert alert-success d-none" role="status" data-form-success>¡Listo! El formulario de demostración se validó correctamente.</div>
+			<form class="needs-validation demo-form" novalidate data-form="login">
+				<div class="mb-3">
+					<label class="form-label" for="loginEmail">Correo electrónico</label>
+					<input class="form-control" id="loginEmail" name="email" type="email" placeholder="tu@correo.com" autocomplete="email" required>
+					<div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
+				</div>
+				<div class="mb-4">
+					<label class="form-label" for="loginPassword">Contraseña</label>
+					<input class="form-control" id="loginPassword" name="password" type="password" placeholder="Tu contraseña" autocomplete="current-password" required minlength="8">
+					<div class="invalid-feedback">Ingresa tu contraseña (mínimo 8 caracteres).</div>
+				</div>
+				<button class="btn btn-deep btn-lg w-100" type="submit">Ingresar <span aria-hidden="true">↗</span></button>
+			</form>
+			<p class="auth-switch">¿No tienes una cuenta? <a th:href="@{/registro}">Regístrate</a></p>
+		</div>
+	</div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

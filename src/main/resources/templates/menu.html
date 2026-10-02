@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Menú')}"></head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main>
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow"><span class="eyebrow-line"></span> HECHOS AL MOMENTO, PARA DISFRUTAR SIN PRISA</p>
+			<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3">
+				<h1>El menú <em>delight.</em></h1>
+				<p class="page-hero-copy mb-2">Ingredientes frescos, combinaciones honestas<br class="d-none d-md-block"> y mucho cariño en cada pieza.</p>
+			</div>
+		</div>
+	</section>
+	<section class="container section-space pt-5">
+		<div class="menu-toolbar d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+			<p class="mb-0"><span class="menu-dot"></span> <span th:text="${#lists.size(products)}">3</span> favoritos preparados para ti</p>
+			<a class="underlined-link" th:href="@{/carrito}">Ver mi carrito <span aria-hidden="true">→</span></a>
+		</div>
+		<div class="row g-4 mt-2" id="menu-products">
+			<div class="col-sm-6 col-lg-4" th:each="product : ${products}" data-menu-product
+				 th:attr="data-code=${product.code},data-name=${product.name},data-description=${product.description},data-price=${product.price},data-category=${product.category},data-image=${product.image}">
+				<article class="product-card h-100">
+					<a class="product-image-link" th:href="@{/producto/{codigo}(codigo=${product.code})}">
+						<img class="product-image" th:src="${product.image}" th:alt="${product.name}" loading="lazy">
+						<span class="product-category-pill" th:text="${product.category}">Especiales</span>
+					</a>
+					<div class="product-card-body">
+						<div class="d-flex justify-content-between align-items-start gap-3">
+							<div>
+								<p class="product-category" th:text="${product.code}">P001</p>
+								<h2 class="product-name" th:text="${product.name}">Maki Clásico</h2>
+							</div>
+							<span class="product-price" th:text="'S/ ' + ${#numbers.formatDecimal(product.price, 1, 2)}">S/ 20.00</span>
+						</div>
+						<p class="product-description" th:text="${product.description}">Descripción del producto</p>
+						<div class="d-flex gap-2 align-items-center">
+							<a class="btn btn-outline-deep flex-grow-1" th:href="@{/producto/{codigo}(codigo=${product.code})}">Ver detalle</a>
+							<button class="btn btn-deep add-cart-button-compact" type="button" th:data-code="${product.code}" th:data-name="${product.name}" th:data-price="${product.price}" th:data-image="${product.image}" aria-label="Agregar al carrito">+</button>
+						</div>
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

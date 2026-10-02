@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main>
+	<section class="hero-section">
+		<div class="hero-image" role="img" aria-label="Selección de makis frescos preparados artesanalmente"></div>
+		<div class="container hero-content">
+			<div class="row">
+				<div class="col-lg-7 col-xl-6">
+					<p class="eyebrow"><span class="eyebrow-line"></span> SABOR JAPONÉS, ALMA PERUANA</p>
+					<h1>Un rollo de sabor<br>en cada <em>momento.</em></h1>
+					<p class="hero-description">Makis hechos al momento, con ingredientes frescos y ese toque que convierte cualquier día en una ocasión especial.</p>
+					<div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+						<a class="btn btn-salmon btn-lg" th:href="@{/menu}">Descubre el menú <span aria-hidden="true">↗</span></a>
+						<a class="hero-text-link" href="#nosotros">Nuestra historia <span aria-hidden="true">↓</span></a>
+					</div>
+					<div class="hero-note"><span class="note-stars" aria-label="5 de 5 estrellas">★★★★★</span><span>Preparado fresco, siempre</span></div>
+				</div>
+			</div>
+		</div>
+		<div class="hero-index">01 <span></span> FRESCO POR NATURALEZA</div>
+	</section>
+
+	<section id="nosotros" class="intro-section section-space">
+		<div class="container">
+			<div class="row align-items-center g-5">
+				<div class="col-lg-6">
+					<div class="intro-photo-wrap">
+						<img class="intro-photo" src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1100&q=85" alt="Makis artesanales preparados con ingredientes frescos">
+						<div class="photo-stamp"><span>DESDE</span><strong>2020</strong><span>EN LIMA</span></div>
+					</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> UN POCO DE NOSOTROS</p>
+					<h2 class="section-title">La frescura se<br>siente en cada <em>roll.</em></h2>
+					<p class="section-copy">En Maki Delight creemos que comer rico también es compartir. Unimos la técnica japonesa con ingredientes peruanos de primera para crear sabores que dan ganas de volver.</p>
+					<a class="underlined-link" th:href="@{/menu}">Conoce nuestros sabores <span aria-hidden="true">→</span></a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="featured-section section-space">
+		<div class="container">
+			<div class="section-header d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+				<div>
+					<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> FAVORITOS DE LA CASA</p>
+					<h2 class="section-title mb-0">Un clásico nunca<br>fue tan <em>delicioso.</em></h2>
+				</div>
+				<a class="underlined-link" th:href="@{/menu}">Ver todo el menú <span aria-hidden="true">→</span></a>
+			</div>
+			<div class="row g-4 mt-3">
+				<div class="col-md-6 col-lg-4" th:each="product,iter : ${featuredProducts}">
+					<article class="product-card h-100">
+						<a class="product-image-link" th:href="@{/producto/{codigo}(codigo=${product.code})}">
+							<img class="product-image" th:src="${product.image}" th:alt="${product.name}">
+							<span class="product-number" th:text="'0' + ${iter.count}">01</span>
+						</a>
+						<div class="product-card-body">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<div>
+									<p class="product-category" th:text="${product.category}">Clásicos</p>
+									<h3 class="product-name" th:text="${product.name}">Maki Clásico</h3>
+								</div>
+								<span class="product-price" th:text="'S/ ' + ${#numbers.formatDecimal(product.price, 1, 2)}">S/ 20.00</span>
+							</div>
+							<p class="product-description" th:text="${product.description}">Descripción del producto</p>
+							<button class="add-cart-button" type="button" th:data-code="${product.code}" th:data-name="${product.name}" th:data-price="${product.price}" th:data-image="${product.image}">
+								Agregar al carrito <span aria-hidden="true">+</span>
+							</button>
+						</div>
+					</article>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="visit-banner">
+		<div class="container d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4">
+			<div>
+				<p class="eyebrow mb-2">TU PRÓXIMO ANTOJO TE ESPERA</p>
+				<h2>¿Listo para tu siguiente roll?</h2>
+			</div>
+			<a class="btn btn-light btn-lg" th:href="@{/menu}">Ver menú completo <span aria-hidden="true">↗</span></a>
+		</div>
+	</section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

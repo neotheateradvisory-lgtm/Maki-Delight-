@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Detalle del producto')}"></head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main class="container section-space product-detail-page" data-product-detail th:data-code="${productCode}">
+	<nav aria-label="Ruta de navegación" class="detail-breadcrumb"><a th:href="@{/}">Inicio</a><span>/</span><a th:href="@{/menu}">Menú</a><span>/</span><span data-detail-name th:text="${product.name}">Maki</span></nav>
+	<div class="row g-5 align-items-center mt-2">
+		<div class="col-lg-7">
+			<img class="detail-image" id="productDetailImage" th:src="${product.image}" th:alt="${product.name}">
+		</div>
+		<div class="col-lg-5">
+			<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-detail-code th:text="${product.code}">P001</span> · <span data-detail-category th:text="${product.category}">Clásicos</span></p>
+			<h1 class="detail-title" data-detail-name th:text="${product.name}">Maki Clásico</h1>
+			<p class="detail-description" data-detail-description th:text="${product.description}">Descripción del maki</p>
+			<p class="detail-price" data-detail-price th:text="'S/ ' + ${#numbers.formatDecimal(product.price, 1, 2)}">S/ 20.00</p>
+			<div class="detail-rule"></div>
+			<div class="d-flex align-items-center gap-3 mb-4">
+				<label for="productQuantity" class="form-label mb-0">Cantidad</label>
+				<div class="quantity-control">
+					<button type="button" data-quantity-change="-1" aria-label="Restar una unidad">−</button>
+					<input id="productQuantity" type="number" value="1" min="1" max="20" aria-label="Cantidad">
+					<button type="button" data-quantity-change="1" aria-label="Agregar una unidad">+</button>
+				</div>
+			</div>
+			<button class="btn btn-deep btn-lg w-100 detail-add-button" type="button" th:data-code="${product.code}" th:data-name="${product.name}" th:data-price="${product.price}" th:data-image="${product.image}">Agregar al carrito <span aria-hidden="true">↗</span></button>
+			<p class="detail-footnote mt-3 mb-0">Preparado al momento · Ingredientes frescos todos los días</p>
+		</div>
+	</div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

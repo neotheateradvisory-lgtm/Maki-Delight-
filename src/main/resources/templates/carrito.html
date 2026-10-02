@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Mi carrito')}"></head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main class="container section-space cart-page">
+	<div class="page-heading">
+		<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> TU SELECCIÓN</p>
+		<h1 class="section-title">Mi <em>carrito.</em></h1>
+		<p class="section-copy">Un buen momento está a solo unos pasos.</p>
+	</div>
+	<div class="row g-5 mt-3">
+		<div class="col-lg-8">
+			<div class="table-responsive cart-table-wrap">
+				<table class="table align-middle cart-table">
+					<thead><tr><th scope="col">Producto</th><th scope="col">Precio</th><th scope="col">Cantidad</th><th scope="col">Subtotal</th><th scope="col"><span class="visually-hidden">Acciones</span></th></tr></thead>
+					<tbody id="cart-items"></tbody>
+				</table>
+			</div>
+			<div id="cart-empty" class="empty-state d-none">
+				<div class="empty-icon" aria-hidden="true">◌</div><h2>Tu carrito está esperando.</h2>
+				<p>Explora el menú y encuentra tu próximo favorito.</p>
+				<a class="btn btn-deep" th:href="@{/menu}">Explorar el menú</a>
+			</div>
+			<a class="underlined-link mt-4 d-inline-flex" th:href="@{/menu}"><span aria-hidden="true">←</span> Seguir comprando</a>
+		</div>
+		<div class="col-lg-4">
+			<aside class="order-summary">
+				<p class="eyebrow eyebrow-dark">RESUMEN</p><h2>Tu pedido</h2>
+				<div class="summary-line"><span>Subtotal</span><strong id="cart-subtotal">S/ 0.00</strong></div>
+				<div class="summary-line"><span>Envío</span><strong>Gratis</strong></div>
+				<div class="summary-total"><span>Total</span><strong id="cart-total">S/ 0.00</strong></div>
+				<a id="checkout-link" class="btn btn-salmon btn-lg w-100 mt-4" th:href="@{/realizar-pedido}">Realizar pedido <span aria-hidden="true">↗</span></a>
+				<p class="summary-note">El envío se coordina al confirmar tu pedido.</p>
+			</aside>
+		</div>
+	</div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

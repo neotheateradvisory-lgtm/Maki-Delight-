@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Crear cuenta')}"></head>
+<body class="auth-page">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main class="container auth-container">
+	<div class="auth-card">
+		<div class="auth-side auth-side-register">
+			<p class="eyebrow">UNA MESA PARA TI</p>
+			<h1>Lo bueno<br>se comparte<br><em>contigo.</em></h1>
+			<p>Crea tu cuenta y ten tus favoritos siempre a la mano.</p>
+			<span class="auth-side-mark" aria-hidden="true">喜</span>
+		</div>
+		<div class="auth-form-panel">
+			<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> HOLA, FUTURO FAN</p>
+			<h2>Crear una cuenta</h2>
+			<p class="auth-intro">Completa tus datos para comenzar.</p>
+			<div class="alert alert-success d-none" role="status" data-form-success>¡Registro validado! Esta demostración no crea una cuenta real.</div>
+			<form class="needs-validation demo-form" novalidate data-form="register">
+				<div class="mb-3">
+					<label class="form-label" for="registerName">Nombres</label>
+					<input class="form-control" id="registerName" name="name" type="text" placeholder="Tus nombres" autocomplete="name" required minlength="2">
+					<div class="invalid-feedback">Escribe tu nombre.</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label" for="registerEmail">Correo electrónico</label>
+					<input class="form-control" id="registerEmail" name="email" type="email" placeholder="tu@correo.com" autocomplete="email" required>
+					<div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label" for="registerPhone">Teléfono</label>
+					<input class="form-control" id="registerPhone" name="phone" type="tel" placeholder="+51 987 654 321" autocomplete="tel" pattern="\+?[0-9 ]{7,15}" required>
+					<div class="invalid-feedback">Ingresa un teléfono válido (7 a 15 caracteres).</div>
+				</div>
+				<div class="row g-3">
+					<div class="col-sm-6 mb-3">
+						<label class="form-label" for="registerPassword">Contraseña</label>
+						<input class="form-control" id="registerPassword" name="password" type="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" minlength="8" required>
+						<div class="invalid-feedback">Usa al menos 8 caracteres.</div>
+					</div>
+					<div class="col-sm-6 mb-3">
+						<label class="form-label" for="confirmPassword">Confirmar contraseña</label>
+						<input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="Repite tu contraseña" autocomplete="new-password" minlength="8" required>
+						<div class="invalid-feedback">Las contraseñas deben coincidir.</div>
+					</div>
+				</div>
+				<button class="btn btn-deep btn-lg w-100" type="submit">Registrarse <span aria-hidden="true">↗</span></button>
+			</form>
+			<p class="auth-switch">¿Ya tienes una cuenta? <a th:href="@{/login}">Ingresa aquí</a></p>
+		</div>
+	</div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>
