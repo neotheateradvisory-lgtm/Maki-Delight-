@@ -15,21 +15,21 @@
 			<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> HOLA, FUTURO FAN</p>
 			<h2>Crear una cuenta</h2>
 			<p class="auth-intro">Completa tus datos para comenzar.</p>
-			<div class="alert alert-success d-none" role="status" data-form-success>¡Registro validado! Esta demostración no crea una cuenta real.</div>
-			<form class="needs-validation demo-form" novalidate data-form="register">
+			<div class="alert alert-danger" role="alert" th:if="${registrationError}" th:text="${registrationError}"></div>
+			<form class="needs-validation demo-form" th:action="@{/registro}" method="post" novalidate data-form="register">
 				<div class="mb-3">
 					<label class="form-label" for="registerName">Nombres</label>
-					<input class="form-control" id="registerName" name="name" type="text" placeholder="Tus nombres" autocomplete="name" required minlength="2">
+					<input class="form-control" id="registerName" name="name" type="text" placeholder="Tus nombres" autocomplete="name" required minlength="2" th:value="${registrationName}">
 					<div class="invalid-feedback">Escribe tu nombre.</div>
 				</div>
 				<div class="mb-3">
 					<label class="form-label" for="registerEmail">Correo electrónico</label>
-					<input class="form-control" id="registerEmail" name="email" type="email" placeholder="tu@correo.com" autocomplete="email" required>
+					<input class="form-control" id="registerEmail" name="email" type="email" placeholder="tu@correo.com" autocomplete="email" required th:value="${registrationEmail}">
 					<div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
 				</div>
 				<div class="mb-3">
 					<label class="form-label" for="registerPhone">Teléfono</label>
-					<input class="form-control" id="registerPhone" name="phone" type="tel" placeholder="+51 987 654 321" autocomplete="tel" pattern="\+?[0-9 ]{7,15}" required>
+					<input class="form-control" id="registerPhone" name="phone" type="tel" placeholder="+51 987 654 321" autocomplete="tel" pattern="\+?[0-9 ]{7,15}" required th:value="${registrationPhone}">
 					<div class="invalid-feedback">Ingresa un teléfono válido (7 a 15 caracteres).</div>
 				</div>
 				<div class="row g-3">

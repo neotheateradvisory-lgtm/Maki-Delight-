@@ -9,24 +9,23 @@
 		<h1 class="section-title">Mis <em>pedidos.</em></h1>
 		<p class="section-copy">Revisa el estado de tus momentos deliciosos.</p>
 	</div>
-	<div id="new-order-notice" class="alert alert-success d-none mt-4" role="status">¡Gracias por tu pedido! En esta demostración, el estado se muestra como pendiente.</div>
+	<div id="new-order-notice" class="alert alert-success mt-4" role="status" th:if="${param.pedido}">¡Gracias por tu pedido! Ya lo guardamos y está pendiente de preparación.</div>
 	<div class="table-responsive orders-table-wrap mt-5">
 		<table class="table align-middle orders-table">
 			<thead><tr><th scope="col">Código</th><th scope="col">Fecha</th><th scope="col">Cliente</th><th scope="col">Total</th><th scope="col">Estado</th></tr></thead>
 			<tbody>
 				<tr th:each="order : ${orders}">
 					<td class="order-code" th:text="${order.code}">PED001</td>
-					<td th:text="${order.date}">01/10/2026</td>
-					<td th:text="${order.customer}">Cliente 1</td>
-					<td class="order-amount" th:text="${order.total}">S/ 55.00</td>
+					<td th:text="${#temporals.format(order.creadoEn, 'dd/MM/yyyy')}">01/10/2026</td>
+					<td th:text="${order.customer}">Cliente</td>
+					<td class="order-amount" th:text="'S/ ' + ${#numbers.formatDecimal(order.total, 1, 2)}">S/ 55.00</td>
 					<td><span class="badge rounded-pill" th:classappend="' text-bg-' + ${order.badge}" th:text="${order.status}">Pendiente</span></td>
 				</tr>
 			</tbody>
-			<tbody id="local-orders"></tbody>
 		</table>
 	</div>
 	<div class="orders-footer d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-		<p class="mb-0">Los pedidos mostrados son datos de demostración.</p>
+		<p class="mb-0">Aquí aparecen los pedidos asociados a tu cuenta.</p>
 		<a class="btn btn-deep" th:href="@{/menu}">Hacer un pedido <span aria-hidden="true">↗</span></a>
 	</div>
 </main>

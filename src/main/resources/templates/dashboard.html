@@ -10,11 +10,13 @@
 			<h1 class="section-title">Hola, <em>admin.</em></h1>
 			<p class="section-copy mb-0">Un vistazo rápido a lo que pasa en Maki Delight.</p>
 		</div>
-		<span class="demo-indicator"><span></span> MODO DEMOSTRACIÓN</span>
+		<span class="demo-indicator"><span></span> DATOS EN TIEMPO REAL</span>
 	</div>
+	<div class="alert alert-success mt-3" role="status" th:if="${adminSuccess}" th:text="${adminSuccess}"></div>
+	<div class="alert alert-danger mt-3" role="alert" th:if="${adminError}" th:text="${adminError}"></div>
 	<div class="row g-3 mt-4">
-		<div class="col-md-4"><article class="metric-card"><span class="metric-icon" aria-hidden="true">◈</span><p>Productos</p><strong id="adminProductCount" th:text="${productCount}">3</strong><span>en el menú inicial</span></article></div>
-		<div class="col-md-4"><article class="metric-card"><span class="metric-icon" aria-hidden="true">▤</span><p>Pedidos</p><strong id="adminOrderCount" th:text="${orderCount}">3</strong><span>registros de ejemplo</span></article></div>
+		<div class="col-md-4"><article class="metric-card"><span class="metric-icon" aria-hidden="true">◈</span><p>Productos</p><strong id="adminProductCount" th:text="${productCount}">0</strong><span>disponibles en el menú</span></article></div>
+		<div class="col-md-4"><article class="metric-card"><span class="metric-icon" aria-hidden="true">▤</span><p>Pedidos</p><strong id="adminOrderCount" th:text="${orderCount}">0</strong><span>guardados en la base de datos</span></article></div>
 		<div class="col-md-4"><article class="metric-card metric-card-accent"><span class="metric-icon" aria-hidden="true">◷</span><p>Pendientes</p><strong id="adminPendingCount" th:text="${pendingCount}">1</strong><span>por atender</span></article></div>
 	</div>
 	<div class="row g-4 mt-3">
@@ -29,25 +31,31 @@
 						<thead><tr><th>Código</th><th>Producto</th><th>Precio</th><th>Acciones</th></tr></thead>
 						<tbody id="admin-products">
 							<tr th:each="product : ${products}" data-product-row
-								th:attr="data-code=${product.code},data-name=${product.name},data-description=${product.description},data-price=${product.price},data-category=${product.category},data-image=${product.image}">
+								th:attr="data-code=${product.code},data-name=${product.name},data-description=${product.description},data-price=${product.price},data-category=${product.category},data-image=${product.image},data-available=${product.available}">
 								<td class="order-code" th:text="${product.code}">P001</td>
 								<td><div class="admin-product-cell"><img th:src="${product.image}" th:alt="${product.name}" loading="lazy"><span th:text="${product.name}">Maki</span></div></td>
 								<td th:text="'S/ ' + ${#numbers.formatDecimal(product.price, 1, 2)}">S/ 20.00</td>
-								<td><div class="d-flex gap-1"><button class="btn btn-sm btn-outline-deep" type="button" data-admin-edit th:data-code="${product.code}" th:data-name="${product.name}" th:data-description="${product.description}" th:data-price="${product.price}" th:data-category="${product.category}" th:data-image="${product.image}">Editar</button><button class="btn btn-sm btn-outline-danger" type="button" data-admin-delete th:data-code="${product.code}" aria-label="Eliminar producto">×</button></div></td>
+								<td><div class="d-flex gap-1">
+									<button class="btn btn-sm btn-outline-deep" type="button" data-admin-edit th:data-code="${product.code}" th:data-name="${product.name}" th:data-description="${product.description}" th:data-price="${product.price}" th:data-category="${product.category}" th:data-image="${product.image}" th:data-available="${product.available}">Editar</button>
+									<form th:action="@{/admin/productos/{codigo}/eliminar(codigo=${product.code})}" method="post">
+										<button class="btn btn-sm btn-outline-danger" type="submit" th:attr="aria-label='Eliminar ' + ${product.name}">×</button>
+									</form>
+								</div></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<form class="admin-product-form needs-validation d-none mt-4" id="adminProductForm" novalidate>
-					<div class="admin-form-heading"><h3 id="adminFormTitle">Nuevo producto</h3><p>Completa los datos del catálogo de demostración.</p></div>
+				<form class="admin-product-form needs-validation d-none mt-4" id="adminProductForm" th:action="@{/admin/productos}" method="post" novalidate>
+					<div class="admin-form-heading"><h3 id="adminFormTitle">Nuevo producto</h3><p>Completa los datos del catálogo.</p></div>
+					<input type="hidden" name="originalCode" id="originalCode">
 					<div class="row g-3">
-						<div class="col-sm-4"><label class="form-label" for="productCode">Código del producto</label><input class="form-control" id="productCode" required placeholder="P004" pattern="[A-Za-z0-9]{2,12}"><div class="invalid-feedback">Ingresa un código de 2 a 12 letras o números.</div></div>
-						<div class="col-sm-8"><label class="form-label" for="productName">Nombre del producto</label><input class="form-control" id="productName" required placeholder="Nombre del maki"><div class="invalid-feedback">Ingresa el nombre.</div></div>
-						<div class="col-12"><label class="form-label" for="productDescription">Descripción</label><textarea class="form-control" id="productDescription" rows="2" required placeholder="Describe sus ingredientes"></textarea><div class="invalid-feedback">Agrega una descripción.</div></div>
-						<div class="col-sm-6"><label class="form-label" for="productPrice">Precio (S/)</label><input class="form-control" id="productPrice" type="number" min="0.01" step="0.01" required placeholder="20.00"><div class="invalid-feedback">Ingresa un precio mayor a cero.</div></div>
-						<div class="col-sm-6"><label class="form-label" for="productCategory">Categoría</label><select class="form-select" id="productCategory" required><option value="">Selecciona una categoría</option><option>Clásicos</option><option>Especiales</option><option>Vegetarianos</option></select><div class="invalid-feedback">Selecciona una categoría.</div></div>
-						<div class="col-sm-8"><label class="form-label" for="productImage">Imagen (URL)</label><input class="form-control" id="productImage" type="url" placeholder="https://..."><div class="form-text">Opcional. Se usa una imagen por defecto si lo dejas vacío.</div></div>
-						<div class="col-sm-4 d-flex align-items-end"><div class="form-check mb-2"><input class="form-check-input" id="productAvailable" type="checkbox" checked><label class="form-check-label" for="productAvailable">Disponible</label></div></div>
+						<div class="col-sm-4"><label class="form-label" for="productCode">Código del producto</label><input class="form-control" id="productCode" name="code" required placeholder="P004" pattern="[A-Za-z0-9]{2,12}"><div class="invalid-feedback">Ingresa un código de 2 a 12 letras o números.</div></div>
+						<div class="col-sm-8"><label class="form-label" for="productName">Nombre del producto</label><input class="form-control" id="productName" name="name" required placeholder="Nombre del maki"><div class="invalid-feedback">Ingresa el nombre.</div></div>
+						<div class="col-12"><label class="form-label" for="productDescription">Descripción</label><textarea class="form-control" id="productDescription" name="description" rows="2" required placeholder="Describe sus ingredientes"></textarea><div class="invalid-feedback">Agrega una descripción.</div></div>
+						<div class="col-sm-6"><label class="form-label" for="productPrice">Precio (S/)</label><input class="form-control" id="productPrice" name="price" type="number" min="0.01" step="0.01" required placeholder="20.00"><div class="invalid-feedback">Ingresa un precio mayor a cero.</div></div>
+						<div class="col-sm-6"><label class="form-label" for="productCategory">Categoría</label><select class="form-select" id="productCategory" name="category" required><option value="">Selecciona una categoría</option><option th:each="category : ${categories}" th:value="${category.nombre}" th:text="${category.nombre}">Clásicos</option></select><div class="invalid-feedback">Selecciona una categoría.</div></div>
+						<div class="col-sm-8"><label class="form-label" for="productImage">Imagen (URL)</label><input class="form-control" id="productImage" name="image" type="url" placeholder="https://..."><div class="form-text">Opcional. Se usará una imagen predeterminada si lo dejas vacío.</div></div>
+						<div class="col-sm-4 d-flex align-items-end"><div class="form-check mb-2"><input class="form-check-input" id="productAvailable" name="available" type="checkbox" value="true" checked><label class="form-check-label" for="productAvailable">Disponible</label></div></div>
 					</div>
 					<div class="d-flex flex-wrap gap-2 mt-4">
 						<button class="btn btn-deep" type="submit">Guardar producto</button>
@@ -61,11 +69,21 @@
 				<p class="eyebrow eyebrow-dark">ACTIVIDAD RECIENTE</p><h2 class="panel-title mb-4">Gestión de pedidos</h2>
 				<div class="admin-order-list">
 					<div class="admin-order-row" th:each="order : ${orders}">
-						<div><strong th:text="${order.code}">PED001</strong><span th:text="${order.customer}">Cliente 1</span></div>
-						<div class="text-end"><strong th:text="${order.total}">S/ 55.00</strong><span class="badge rounded-pill mt-1" th:classappend="' text-bg-' + ${order.badge}" th:text="${order.status}">Pendiente</span></div>
+						<div><strong th:text="${order.code}">PED001</strong><span th:text="${order.customer}">Cliente</span></div>
+						<div class="text-end">
+							<strong th:text="'S/ ' + ${#numbers.formatDecimal(order.total, 1, 2)}">S/ 55.00</strong>
+							<form class="mt-1" th:action="@{/admin/pedidos/{codigo}/estado(codigo=${order.code})}" method="post">
+								<select class="form-select form-select-sm" name="status" aria-label="Estado del pedido" onchange="this.form.submit()">
+									<option value="PENDIENTE" th:selected="${order.estado.name() == 'PENDIENTE'}">Pendiente</option>
+									<option value="EN_PREPARACION" th:selected="${order.estado.name() == 'EN_PREPARACION'}">En preparación</option>
+									<option value="ENTREGADO" th:selected="${order.estado.name() == 'ENTREGADO'}">Entregado</option>
+									<option value="CANCELADO" th:selected="${order.estado.name() == 'CANCELADO'}">Cancelado</option>
+								</select>
+							</form>
+						</div>
 					</div>
 				</div>
-				<p class="admin-note mt-4 mb-0">Los datos de productos y pedidos son ilustrativos; no se guardan en una base de datos.</p>
+				<p class="admin-note mt-4 mb-0">Los cambios se guardan directamente en la base de datos.</p>
 			</section>
 		</div>
 	</div>

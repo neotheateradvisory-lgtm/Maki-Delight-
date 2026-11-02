@@ -15,11 +15,12 @@
 			<p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> BIENVENIDO DE VUELTA</p>
 			<h2>Iniciar sesión</h2>
 			<p class="auth-intro">Ingresa tus datos para continuar.</p>
-			<div class="alert alert-success d-none" role="status" data-form-success>¡Listo! El formulario de demostración se validó correctamente.</div>
-			<form class="needs-validation demo-form" novalidate data-form="login">
+			<div class="alert alert-danger" role="alert" th:if="${param.error}">Correo o contraseña incorrectos.</div>
+			<div class="alert alert-success" role="status" th:if="${registrationSuccess}" th:text="${registrationSuccess}"></div>
+			<form class="needs-validation demo-form" th:action="@{/login}" method="post" novalidate data-form="login">
 				<div class="mb-3">
 					<label class="form-label" for="loginEmail">Correo electrónico</label>
-					<input class="form-control" id="loginEmail" name="email" type="email" placeholder="tu@correo.com" autocomplete="email" required>
+					<input class="form-control" id="loginEmail" name="username" type="email" placeholder="tu@correo.com" autocomplete="email" required>
 					<div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
 				</div>
 				<div class="mb-4">

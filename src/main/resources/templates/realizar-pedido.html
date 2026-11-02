@@ -9,12 +9,13 @@
 		<h1 class="section-title">Confirma tu <em>pedido.</em></h1>
 		<p class="section-copy">Déjanos los datos para llevarte algo delicioso.</p>
 	</div>
-	<div class="alert alert-success d-none mt-4" role="status" id="order-success">¡Pedido confirmado! Es una demostración: no se envió ni guardó una orden real.</div>
+	<div class="alert alert-danger mt-4" role="alert" th:if="${orderError}" th:text="${orderError}"></div>
 	<div class="row g-5 mt-2">
 		<div class="col-lg-7">
 			<section class="form-panel">
 				<h2 class="form-section-title">Datos de entrega</h2>
-				<form id="orderForm" class="needs-validation" novalidate>
+				<form id="orderForm" class="needs-validation" th:action="@{/realizar-pedido}" method="post" novalidate>
+					<div id="orderItemsContainer"></div>
 					<div class="mb-3">
 						<label class="form-label" for="orderName">Nombre</label>
 						<input class="form-control" id="orderName" name="name" type="text" placeholder="Nombre de quien recibe" autocomplete="name" required minlength="2">
@@ -35,7 +36,7 @@
 						<textarea class="form-control" id="orderNotes" name="notes" rows="3" placeholder="Referencias para encontrar tu dirección o indicaciones especiales"></textarea>
 					</div>
 					<button class="btn btn-salmon btn-lg w-100" type="submit">Confirmar pedido <span aria-hidden="true">↗</span></button>
-					<p class="form-demo-note mt-3 mb-0">Al confirmar, verás un mensaje de demostración. No se realiza ningún pago.</p>
+					<p class="form-demo-note mt-3 mb-0">Al confirmar, guardaremos tu pedido. No se realiza ningún pago en línea.</p>
 				</form>
 			</section>
 		</div>
